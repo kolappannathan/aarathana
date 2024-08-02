@@ -33,7 +33,7 @@ fun SongCard(song: Song, navController: NavController, modifier: Modifier = Modi
             if (song.author.isNotEmpty()) {
                 Text(
                     text = song.author,
-                    fontSize = 8.sp
+                    fontSize = 10.sp
                 )
             }
         }

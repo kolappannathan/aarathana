@@ -25,7 +25,7 @@ import com.kolappan.aarathana.ui.components.SongLyricComponent
 @Composable
 fun SongLyricPage(
     navController: NavController,
-    song: Song) {
+    song: Song,) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {

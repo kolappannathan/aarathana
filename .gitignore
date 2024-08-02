@@ -1,3 +1,5 @@
+src/app/release/
+
 # Gradle files
 .gradle/
 build/

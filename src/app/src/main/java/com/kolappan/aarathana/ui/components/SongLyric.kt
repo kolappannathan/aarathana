@@ -23,6 +23,7 @@ fun SongLyricComponent(song: Song, modifier: Modifier) {
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
+            .padding(start = 7.dp)
     )
     {
         Column {
