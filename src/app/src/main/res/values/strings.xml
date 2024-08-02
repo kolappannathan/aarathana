@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Aarathana</string>
+    <string name="title_activity_main">AarathanaActivity</string>
+    <string name="pages_home" translatable="false">pages_home</string>
+    <string name="pages_lyrics" translatable="false">pages_lyrics</string>
+    <string name="back_button">Back</string>
+</resources>
