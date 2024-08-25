@@ -23,12 +23,12 @@ fun SongLyricComponent(song: Song, modifier: Modifier) {
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(start = 7.dp)
+            .padding(start = 7.dp, bottom = 12.dp)
     )
     {
         Column {
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = "Author: " + song.author)
+            Text(text = "பாடல் இயற்றியவர்: " + song.author)
             Spacer(modifier = Modifier.height(12.dp))
             Text(text = song.lyrics)
         }
