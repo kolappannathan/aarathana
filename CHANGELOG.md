@@ -4,27 +4,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Changed
- - Updated dependencies
- - Updated Song page to show author name only if present
+ - Updated dependencies.
+ - Updated Song page to show author name only if present.
+ - Author field is now in italics in Song page.
 
 ## [1.2.2] - 2026-05-18
 ### Changed
- - Updated dependencies
+ - Updated dependencies.
 
 ## [1.2.0] - 2024-12-27
 ### Added
- - Added Thirupavai lyrics
+ - Added Thirupavai lyrics.
 
 ### Changed
- - Updated gradle version
+ - Updated gradle version.
 
 ## [1.1.0]
 ### Added
- - New songs
+ - New songs.
 
 ### Changed
- - Updated grade
+ - Updated gradle.
 
 ## [1.0.0] - 2024-08-18
 ### Added
- - Initial release
+ - Initial release.
