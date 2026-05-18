@@ -1,11 +1,13 @@
 package com.kolappan.aarathana.ui.components
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -30,12 +32,14 @@ fun AarathanaTopBar(
     navController: NavController,
     canNavigateBack: Boolean = false,
     title: String = stringResource(id = R.string.app_name),
-    onMenuClick: (() -> Unit)? = null
+    onMenuClick: (() -> Unit)? = null,
+    actions: @Composable RowScope.() -> Unit = {}
 ) {
     Column {
         TopAppBar(
             title = { Text(title, color = MaterialTheme.colorScheme.primary) },
             colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background),
+            actions = actions,
             navigationIcon = {
                 if (canNavigateBack) {
                     IconButton(onClick = { navController.navigateUp() }) {

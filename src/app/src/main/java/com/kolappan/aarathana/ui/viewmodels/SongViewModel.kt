@@ -26,4 +26,14 @@ class SongViewModel(application: Application) : AndroidViewModel(application) {
     fun getSongByTitle(title: String): Song? {
         return _songsState.value?.songs?.find { it.title == title }
     }
+
+    fun searchSongs(query: String): List<Song> {
+        val songs = _songsState.value?.songs ?: return emptyList()
+        if (query.isBlank()) return songs
+        
+        return songs.filter { 
+            it.title.contains(query, ignoreCase = true) || 
+            it.author.contains(query, ignoreCase = true)
+        }
+    }
 }

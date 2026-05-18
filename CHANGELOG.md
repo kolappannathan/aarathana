@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
  - New About page.
+ - Added search option.
 
 ### Changed
  - Loading JSON data is now done through a repository.

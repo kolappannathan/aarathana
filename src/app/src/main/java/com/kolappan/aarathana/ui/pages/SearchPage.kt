@@ -1,0 +1,96 @@
+package com.kolappan.aarathana.ui.pages
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.kolappan.aarathana.R
+import com.kolappan.aarathana.models.Song
+import com.kolappan.aarathana.ui.components.AarathanaTopBar
+import com.kolappan.aarathana.ui.components.SongListContent
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SearchPage(
+    navController: NavController,
+    onSearch: (String) -> List<Song>
+) {
+    var searchQuery by remember { mutableStateOf("") }
+    val filteredSongs = remember(searchQuery) { onSearch(searchQuery) }
+
+    Scaffold(
+        topBar = {
+            AarathanaTopBar(
+                navController = navController,
+                canNavigateBack = true,
+                title = stringResource(R.string.search)
+            )
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            OutlinedTextField(
+                value = searchQuery,
+                onValueChange = { searchQuery = it },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                placeholder = { Text(stringResource(R.string.search_hint)) },
+                leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+                trailingIcon = {
+                    if (searchQuery.isNotEmpty()) {
+                        IconButton(onClick = { searchQuery = "" }) {
+                            Icon(Icons.Default.Clear, contentDescription = "Clear")
+                        }
+                    }
+                },
+                singleLine = true
+            )
+
+            if (filteredSongs.isEmpty() && searchQuery.isNotEmpty()) {
+                Text(
+                    text = stringResource(R.string.no_results),
+                    modifier = Modifier.padding(16.dp),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            } else {
+                SongListContent(
+                    songs = filteredSongs,
+                    navController = navController,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SearchPagePreview() {
+    val navController = rememberNavController()
+    val mockSongs = listOf(
+        Song("Song 1", "Author 1", "Lyrics 1", "God 1"),
+        Song("Song 2", "Author 2", "Lyrics 2", "God 2")
+    )
+    SearchPage(
+        navController = navController,
+        onSearch = { query ->
+            if (query.isEmpty()) mockSongs
+            else mockSongs.filter { it.title.contains(query, ignoreCase = true) || it.author.contains(query, ignoreCase = true) }
+        }
+    )
+}

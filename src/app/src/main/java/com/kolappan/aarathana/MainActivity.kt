@@ -21,6 +21,7 @@ import androidx.navigation.navArgument
 import com.kolappan.aarathana.ui.pages.HomePage
 import com.kolappan.aarathana.ui.pages.SongLyricPage
 import com.kolappan.aarathana.ui.pages.AboutPage
+import com.kolappan.aarathana.ui.pages.SearchPage
 import com.kolappan.aarathana.ui.components.AppNavigationDrawerContent
 import kotlinx.coroutines.launch
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -68,7 +69,8 @@ fun AppNavigation(
     AppNavigationContent(
         navController = navController,
         songs = songs,
-        onGetSongByTitle = { title -> viewModel.getSongByTitle(title) }
+        onGetSongByTitle = { title -> viewModel.getSongByTitle(title) },
+        onSearch = { query -> viewModel.searchSongs(query) }
     )
 }
 
@@ -76,7 +78,8 @@ fun AppNavigation(
 fun AppNavigationContent(
     navController: androidx.navigation.NavHostController,
     songs: List<Song>,
-    onGetSongByTitle: (String) -> Song?
+    onGetSongByTitle: (String) -> Song?,
+    onSearch: (String) -> List<Song> = { emptyList() }
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -102,6 +105,9 @@ fun AppNavigationContent(
         NavHost(navController = navController, startDestination = "home") {
             composable("home") {
                 HomePage(navController, songs, onMenuClick = { scope.launch { drawerState.open() } })
+            }
+            composable("search") {
+                SearchPage(navController, onSearch = onSearch)
             }
             composable("about") {
                 AboutPage(navController, onMenuClick = { scope.launch { drawerState.open() } })
