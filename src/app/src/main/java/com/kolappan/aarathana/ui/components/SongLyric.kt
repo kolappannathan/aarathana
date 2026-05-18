@@ -28,7 +28,9 @@ fun SongLyricComponent(song: Song, modifier: Modifier) {
     {
         Column {
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = "பாடல் இயற்றியவர்: " + song.author)
+            if (song.author.isNotEmpty()) {
+                Text(text = "பாடல் இயற்றியவர்: " + song.author)
+            }
             Spacer(modifier = Modifier.height(12.dp))
             Text(text = song.lyrics)
         }
