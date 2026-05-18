@@ -19,12 +19,13 @@ import com.kolappan.aarathana.ui.components.SongListContent
 @Composable
 fun HomePage(
     navController: NavController,
-    songs: List<Song>
+    songs: List<Song>,
+    onMenuClick: () -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            AarathanaTopBar(navController, false)
+            AarathanaTopBar(navController, false, onMenuClick = onMenuClick)
         }) { innerPadding ->
         Column(
             modifier = Modifier
@@ -46,5 +47,5 @@ fun HomePagePreview(){
         Song("Song 2", "Author 2", "Lyrics 2", "God 2"),
         Song("Song 3", "Author 3", "Lyrics 3", "God 3")
     )
-    HomePage(navController, mockSongs)
+    HomePage(navController, mockSongs, onMenuClick = {})
 }

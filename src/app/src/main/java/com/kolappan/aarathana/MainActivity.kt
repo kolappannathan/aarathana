@@ -4,17 +4,25 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.kolappan.aarathana.ui.pages.HomePage
 import com.kolappan.aarathana.ui.pages.SongLyricPage
+import com.kolappan.aarathana.ui.pages.AboutPage
+import com.kolappan.aarathana.ui.components.AppNavigationDrawerContent
+import kotlinx.coroutines.launch
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kolappan.aarathana.ui.viewmodels.SongViewModel
 import com.kolappan.aarathana.ui.theme.AarathanaTheme
@@ -70,19 +78,44 @@ fun AppNavigationContent(
     songs: List<Song>,
     onGetSongByTitle: (String) -> Song?
 ) {
-    NavHost(navController = navController, startDestination = "home") {
-        composable("home") {
-            HomePage(navController, songs)
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            AppNavigationDrawerContent(
+                currentRoute = currentRoute,
+                onNavigate = { route ->
+                    navController.navigate(route) {
+                        if (route == "home") {
+                            popUpTo("home") { inclusive = true }
+                        }
+                    }
+                },
+                onCloseDrawer = { scope.launch { drawerState.close() } }
+            )
         }
-        composable(
-            route = "lyrics/{songTitle}",
-            arguments = listOf(navArgument("songTitle") { type = NavType.StringType })
-        ) { backStackEntry ->
-            val songTitle = backStackEntry.arguments?.getString("songTitle")
-            if (songTitle != null) {
-                val song = onGetSongByTitle(songTitle)
-                if (song != null) {
-                    SongLyricPage(navController, song = song)
+    ) {
+        NavHost(navController = navController, startDestination = "home") {
+            composable("home") {
+                HomePage(navController, songs, onMenuClick = { scope.launch { drawerState.open() } })
+            }
+            composable("about") {
+                AboutPage(navController, onMenuClick = { scope.launch { drawerState.open() } })
+            }
+            composable(
+                route = "lyrics/{songTitle}",
+                arguments = listOf(navArgument("songTitle") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val songTitle = backStackEntry.arguments?.getString("songTitle")
+                if (songTitle != null) {
+                    val song = onGetSongByTitle(songTitle)
+                    if (song != null) {
+                        SongLyricPage(navController, song = song)
+                    }
                 }
             }
         }

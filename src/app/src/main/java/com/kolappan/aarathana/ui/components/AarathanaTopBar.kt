@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -28,7 +29,8 @@ import com.kolappan.aarathana.R
 fun AarathanaTopBar(
     navController: NavController,
     canNavigateBack: Boolean = false,
-    title: String = stringResource(id = R.string.app_name)
+    title: String = stringResource(id = R.string.app_name),
+    onMenuClick: (() -> Unit)? = null
 ) {
     Column {
         TopAppBar(
@@ -40,6 +42,13 @@ fun AarathanaTopBar(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.back_button)
+                        )
+                    }
+                } else if (onMenuClick != null) {
+                    IconButton(onClick = onMenuClick) {
+                        Icon(
+                            imageVector = Icons.Default.Menu,
+                            contentDescription = "Menu"
                         )
                     }
                 }

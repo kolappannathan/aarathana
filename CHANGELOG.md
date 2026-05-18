@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+### Added
+ - New About page.
+
 ### Changed
  - Loading JSON data is now done through a repository.
  - Updated Song page to show author name only if present.
