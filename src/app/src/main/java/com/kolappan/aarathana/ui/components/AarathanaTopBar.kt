@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -23,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.kolappan.aarathana.R
-import com.kolappan.aarathana.ui.pages.HomePage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,7 +33,7 @@ fun AarathanaTopBar(
     Column {
         TopAppBar(
             title = { Text(title, color = MaterialTheme.colorScheme.primary) },
-            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = MaterialTheme.colorScheme.background),
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background),
             navigationIcon = {
                 if (canNavigateBack) {
                     IconButton(onClick = { navController.navigateUp() }) {
