@@ -12,12 +12,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.kolappan.aarathana.models.Song
 import com.kolappan.aarathana.ui.components.AarathanaTopBar
-import com.kolappan.aarathana.ui.components.SongList
+import com.kolappan.aarathana.ui.components.SongListContent
 
 @Composable
 fun HomePage(
-    navController: NavController
+    navController: NavController,
+    songs: List<Song>
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -30,15 +32,19 @@ fun HomePage(
                 .padding(innerPadding)
         ) {
             Spacer(modifier = Modifier.height(16.dp))
-            SongList(navController, modifier = Modifier.fillMaxSize())
+            SongListContent(songs, navController, modifier = Modifier.fillMaxSize())
         }
     }
 }
 
 @Composable
-@Preview
-fun HomePagePreview(
-    navController: NavController = rememberNavController()
-){
-    HomePage(navController)
+@Preview(showBackground = true)
+fun HomePagePreview(){
+    val navController = rememberNavController()
+    val mockSongs = listOf(
+        Song("Song 1", "Author 1", "Lyrics 1", "God 1"),
+        Song("Song 2", "Author 2", "Lyrics 2", "God 2"),
+        Song("Song 3", "Author 3", "Lyrics 3", "God 3")
+    )
+    HomePage(navController, mockSongs)
 }

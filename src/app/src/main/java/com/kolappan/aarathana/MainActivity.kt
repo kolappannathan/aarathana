@@ -5,18 +5,20 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.kolappan.aarathana.helpers.JsonHelper
-import com.kolappan.aarathana.models.Song
 import com.kolappan.aarathana.ui.pages.HomePage
 import com.kolappan.aarathana.ui.pages.SongLyricPage
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.kolappan.aarathana.ui.viewmodels.SongViewModel
 import com.kolappan.aarathana.ui.theme.AarathanaTheme
+import com.kolappan.aarathana.models.Song
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,29 +36,54 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     AarathanaTheme {
-        AppNavigation()
+        val mockSongs = listOf(
+            Song("Song 1", "Author 1", "Lyrics 1", "God 1"),
+            Song("Song 2", "Author 2", "Lyrics 2", "God 2")
+        )
+        val navController = rememberNavController()
+        AppNavigationContent(
+            navController = navController,
+            songs = mockSongs,
+            onGetSongByTitle = { title -> mockSongs.find { it.title == title } }
+        )
     }
 }
 
 @Composable
-fun AppNavigation() {
+fun AppNavigation(
+    viewModel: SongViewModel = viewModel()
+) {
+    val songsState by viewModel.songsState.collectAsState()
+    val songs = songsState?.songs ?: emptyList()
     val navController = rememberNavController()
+    
+    AppNavigationContent(
+        navController = navController,
+        songs = songs,
+        onGetSongByTitle = { title -> viewModel.getSongByTitle(title) }
+    )
+}
 
+@Composable
+fun AppNavigationContent(
+    navController: androidx.navigation.NavHostController,
+    songs: List<Song>,
+    onGetSongByTitle: (String) -> Song?
+) {
     NavHost(navController = navController, startDestination = "home") {
         composable("home") {
-            HomePage(navController)
+            HomePage(navController, songs)
         }
         composable(
             route = "lyrics/{songTitle}",
             arguments = listOf(navArgument("songTitle") { type = NavType.StringType })
         ) { backStackEntry ->
-            val songTitle = backStackEntry.arguments?.getString("songTitle");
-            if(songTitle != null) {
-                val context = LocalContext.current;
-                val songs = JsonHelper().getSongs(context);
-
-                val song = songs.songs.first { item: Song -> item.title == songTitle };
-                SongLyricPage(navController, song = song)
+            val songTitle = backStackEntry.arguments?.getString("songTitle")
+            if (songTitle != null) {
+                val song = onGetSongByTitle(songTitle)
+                if (song != null) {
+                    SongLyricPage(navController, song = song)
+                }
             }
         }
     }

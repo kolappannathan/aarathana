@@ -4,9 +4,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Changed
- - Updated dependencies.
+ - Loading JSON data is now done through a repository.
  - Updated Song page to show author name only if present.
  - Author field is now in italics in Song page.
+ - Updated dependencies.
 
 ## [1.2.2] - 2026-05-18
 ### Changed

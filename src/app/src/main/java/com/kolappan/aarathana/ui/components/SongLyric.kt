@@ -11,11 +11,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kolappan.aarathana.helpers.JsonHelper
 import com.kolappan.aarathana.models.Song
 
 @Composable
@@ -38,10 +36,14 @@ fun SongLyricComponent(song: Song, modifier: Modifier) {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun SongLyricComponentPreview() {
-    val context = LocalContext.current;
-    val songs = JsonHelper().getSongs(context);
-    SongLyricComponent(songs.songs.first(), Modifier.padding(5.dp))
+    val mockSong = Song(
+        title = "Preview Song",
+        author = "Author Name",
+        lyrics = "Line 1 of the lyrics\nLine 2 of the lyrics\nLine 3 of the lyrics\nMore lyrics here...",
+        mainGod = "God Name"
+    )
+    SongLyricComponent(mockSong, Modifier.padding(5.dp))
 }

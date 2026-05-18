@@ -1,14 +1,18 @@
 package com.kolappan.aarathana.models
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Song(
-    var title: String,
-    var author: String,
-    var lyrics: String,
-    var mainGod: String
+    val title: String,
+    val author: String,
+    val lyrics: String,
+    val mainGod: String
 )
 
+@Serializable
 data class SongList(
-    var version: Int,
-    var updated: String,
-    var songs: List<Song>
+    val version: Int,
+    val updated: String,
+    val songs: List<Song>
 )

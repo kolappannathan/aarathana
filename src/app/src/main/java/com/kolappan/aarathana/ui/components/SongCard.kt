@@ -9,9 +9,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.kolappan.aarathana.models.Song
 
 @Composable
@@ -21,7 +23,7 @@ fun SongCard(song: Song, navController: NavController, modifier: Modifier = Modi
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
         ),
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 1.dp, vertical = 3.dp)
     ) {
@@ -38,4 +40,16 @@ fun SongCard(song: Song, navController: NavController, modifier: Modifier = Modi
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SongCardPreview() {
+    val mockSong = Song(
+        title = "Sample Song Title",
+        author = "Sample Author",
+        lyrics = "Sample Lyrics",
+        mainGod = "God"
+    )
+    SongCard(song = mockSong, navController = rememberNavController())
 }
