@@ -22,6 +22,7 @@ import com.kolappan.aarathana.ui.pages.HomePage
 import com.kolappan.aarathana.ui.pages.SongLyricPage
 import com.kolappan.aarathana.ui.pages.AboutPage
 import com.kolappan.aarathana.ui.pages.SearchPage
+import com.kolappan.aarathana.ui.pages.AuthorPage
 import com.kolappan.aarathana.ui.components.AppNavigationDrawerContent
 import kotlinx.coroutines.launch
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -70,6 +71,7 @@ fun AppNavigation(
         navController = navController,
         songs = songs,
         onGetSongByTitle = { title -> viewModel.getSongByTitle(title) },
+        onGetSongsByAuthor = { author -> viewModel.getSongsByAuthor(author) },
         onSearch = { query -> viewModel.searchSongs(query) }
     )
 }
@@ -79,6 +81,7 @@ fun AppNavigationContent(
     navController: androidx.navigation.NavHostController,
     songs: List<Song>,
     onGetSongByTitle: (String) -> Song?,
+    onGetSongsByAuthor: (String) -> List<Song> = { emptyList() },
     onSearch: (String) -> List<Song> = { emptyList() }
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -122,6 +125,16 @@ fun AppNavigationContent(
                     if (song != null) {
                         SongLyricPage(navController, song = song)
                     }
+                }
+            }
+            composable(
+                route = "author/{authorName}",
+                arguments = listOf(navArgument("authorName") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val authorName = backStackEntry.arguments?.getString("authorName")
+                if (authorName != null) {
+                    val authorSongs = onGetSongsByAuthor(authorName)
+                    AuthorPage(navController, authorName, authorSongs)
                 }
             }
         }

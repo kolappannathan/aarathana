@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
  - New About page.
  - Added search option.
+ - Added Author pages where you can see other songs by the same author.
 
 ### Changed
  - Loading JSON data is now done through a repository.

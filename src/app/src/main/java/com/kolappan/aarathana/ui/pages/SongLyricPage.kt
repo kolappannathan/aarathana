@@ -21,7 +21,7 @@ fun SongLyricPage(
         topBar = {
             AarathanaTopBar(navController, true, song.title)
         }) { innerPadding ->
-        SongLyricComponent(song, modifier = Modifier.padding(innerPadding))
+        SongLyricComponent(song, navController, modifier = Modifier.padding(innerPadding))
     }
 }
 
